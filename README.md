@@ -13,8 +13,6 @@ A aplicação utiliza a API pública **ViaCEP** para consultar informações de 
 A proposta desta versão foi desenvolver uma interface com estética **Dark Elegante**, utilizando uma combinação de tons escuros e detalhes dourados.
 
 ---
-
-<<<<<<< HEAD
 ##  O que o aplicativo faz
 
 ### Cadastro
@@ -98,7 +96,8 @@ A interface desta versão foi desenvolvida com uma proposta diferente da versão
 ### Menu lateral
 
 <img src="flutter_desafio_1/assets/menu.png" width="250">
-=======
+
+
 -   Splash Screen com animação de entrada e saída
 -   Tela Home
 -   Menu lateral
