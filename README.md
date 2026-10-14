@@ -13,8 +13,6 @@ A aplicação utiliza a API pública **ViaCEP** para consultar informações de 
 A proposta desta versão foi desenvolver uma interface com estética **Dark Elegante**, utilizando uma combinação de tons escuros e detalhes dourados.
 
 ---
-
-<<<<<<< HEAD
 ##  O que o aplicativo faz
 
 ### Cadastro
