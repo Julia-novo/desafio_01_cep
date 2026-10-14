@@ -1,287 +1,265 @@
-# Flutter Maps - Traçar Rota
+#  Cadastro de Pessoas
 
-Aplicativo desenvolvido em Flutter para a atividade de Mapas da Aula 05 do curso de Desenvolvimento de Sistemas.
-
-O aplicativo utiliza o **OpenStreetMap** para exibir o mapa e o **OSRM (Open Source Routing Machine)** para calcular uma rota entre um ponto de origem e um destino selecionado pelo usuário.
+> Aplicativo mobile em Flutter desenvolvido para o **Desafio 01 da Aula 04 — Consumo de APIs Externas**, do curso de Programação para Dispositivos Móveis — SENAI.
 
 ---
 
-## Sobre o projeto
+## ✦ Sobre o projeto
 
-O objetivo do projeto é trabalhar com mapas no Flutter, permitindo que o usuário interaja com o mapa e visualize uma rota entre dois pontos.
+Este projeto consiste em um aplicativo para **cadastro e gerenciamento local de pessoas**.
 
-O aplicativo permite:
+A aplicação utiliza a API pública **ViaCEP** para consultar informações de endereço automaticamente a partir do CEP informado pelo usuário.
 
-- Visualizar um mapa;
-- Selecionar um ponto no mapa;
-- Visualizar as coordenadas do destino;
-- Definir um ponto de origem e um destino;
-- Calcular uma rota seguindo as ruas;
-- Visualizar a rota no mapa;
-- Limpar o destino selecionado;
-- Acessar as opções pelo menu lateral.
+A proposta desta versão foi desenvolver uma interface com estética **Dark Elegante**, utilizando uma combinação de tons escuros e detalhes dourados.
 
 ---
 
-## Tecnologias utilizadas
+<<<<<<< HEAD
+##  O que o aplicativo faz
 
-- **Flutter**
-- **Dart**
-- **flutter_map**
-- **latlong2**
-- **HTTP**
-- **OpenStreetMap**
-- **OSRM**
+### Cadastro
 
----
+O usuário pode informar:
 
-## Funcionalidades
+- Nome
+- CEP
+- Número
+- Complemento
 
-### Mapa
+Após o preenchimento do CEP, os dados retornados pela ViaCEP são apresentados automaticamente:
 
-O aplicativo apresenta um mapa utilizando o OpenStreetMap.
+- Rua
+- Bairro
+- Cidade
+- Estado
 
+Depois do cadastro, as informações são armazenadas localmente no dispositivo.
 
----
+### Dados locais
 
-### Seleção de destino
-
-Ao tocar em um ponto do mapa, o aplicativo identifica a latitude e a longitude do local selecionado.
-
-O ponto selecionado é marcado no mapa e suas coordenadas são apresentadas na tela.
+Os cadastros utilizam **SharedPreferences**, permitindo que os dados continuem disponíveis mesmo após o aplicativo ser fechado e aberto novamente.
 
 ---
 
-### Traçar rota
+##  Navegação
 
-Depois que o destino é selecionado, o aplicativo utiliza o **OSRM** para calcular uma rota entre a origem e o destino.
+O aplicativo possui as seguintes telas e recursos:
 
-A rota acompanha as ruas do mapa, em vez de simplesmente ligar os dois pontos com uma linha reta.
+**Splash**
+- Animação de entrada
+- Animação de saída
+- Acesso também pelo menu lateral
 
+**Home**
+- Exibição das pessoas cadastradas
+- Menu lateral
+- Botão `+` para novo cadastro
+
+**Cadastro**
+- Formulário de cadastro
+- Consulta automática de CEP
+- Salvamento dos dados
+
+**Menu**
+- Home
+- Splash
+- Sair
 
 ---
 
-### Coordenadas
+##  Identidade visual
 
-O aplicativo apresenta as coordenadas da origem e do destino selecionado.
+A interface desta versão foi desenvolvida com uma proposta diferente da versão inicial do projeto.
 
-Exemplo:
+### Direção visual
+
+-  Interface predominantemente escura
+-  Detalhes dourados
+-  Cards e superfícies em tons de preto e cinza
+-  Tipografia moderna
+-  Layout adaptado para dispositivos móveis
+
+---
+
+##  Telas
+
+### Splash
+
+<img src="flutter_desafio_1/assets/splash.png" width="250">
+
+### Página inicial
+
+<img src="flutter_desafio_1/assets/home.png" width="250">
+
+### Cadastro
+
+<img src="flutter_desafio_1/assets/cadastro.png" width="250">
+
+### Menu lateral
+
+<img src="flutter_desafio_1/assets/menu.png" width="250">
+=======
+-   Splash Screen com animação de entrada e saída
+-   Tela Home
+-   Menu lateral
+-   Acesso à Splash pelo menu
+-   Opção para sair do aplicativo
+-   Botão `+` para adicionar uma nova pessoa
+-   Lista de pessoas cadastradas
+
+------------------------------------------------------------------------
+
+
+##  Tecnologias utilizadas
+
+| Tecnologia | Função |
+|---|---|
+| **Flutter** | Desenvolvimento mobile |
+| **Dart** | Linguagem utilizada |
+| **ViaCEP** | Consulta dos endereços |
+| **HTTP** | Requisições para a API |
+| **SharedPreferences** | Armazenamento local |
+| **Google Fonts** | Tipografia |
+| **Android Studio** | Emulação Android |
+| **VS Code** | Desenvolvimento |
+
+---
+
+##  Integração com a ViaCEP
+
+O aplicativo realiza uma requisição HTTP para a API ViaCEP utilizando o CEP informado no formulário.
+
+A resposta da API é recebida em formato **JSON** e utilizada para preencher os campos de endereço.
+
+Fluxo da consulta:
 
 ```text
-Origem: -22.713000, -46.818000
-Destino: -22.710110, -46.817516
+CEP informado
+      ↓
+Requisição HTTP
+      ↓
+API ViaCEP
+      ↓
+Resposta JSON
+      ↓
+Rua • Bairro • Cidade • Estado
+````
+
+---
+
+##  Armazenamento
+
+Os dados cadastrados não dependem de um servidor próprio.
+
+O aplicativo utiliza o armazenamento local do dispositivo por meio do:
+
+```text
+SharedPreferences
+```
+
+Dessa forma, os cadastros podem ser recuperados posteriormente no próprio aplicativo.
+
+---
+
+##  Organização
+
+```text
+flutter_desafio_1/
+│
+├── README.md
+├── app-release.apk
+├── pubspec.yaml
+│
+├── assets/
+│   ├── icon.png
+│   ├── 01-splash.png
+│   ├── 02-home.png
+│   ├── 03-cadastro.png
+│   └── 05-menu.png
+│
+├── lib/
+│
+└── android/
 ```
 
 ---
 
-### Marcadores
+##  Executando o projeto
 
-O mapa apresenta marcadores para identificar os pontos utilizados na rota:
+### Requisitos
 
-- **Azul:** ponto de origem;
-- **Vermelho:** ponto de destino.
+Antes de executar, é necessário possuir:
 
----
+* Flutter instalado
+* Dart
+* Android Studio ou VS Code
+* Emulador Android ou dispositivo físico
 
-### Menu lateral
+### Preparação
 
-O aplicativo possui um menu lateral com opções para facilitar a utilização das funcionalidades disponíveis.
-
-
----
-
-## Telas do aplicativo
-
-### Tela inicial
-
-Tela principal do aplicativo, contendo o mapa e o ponto de origem.
-
-![Tela inicial](assets/screenshots/inicio.png)
-
-### Rota traçada
-
-Tela mostrando o destino selecionado e a rota calculada pelo aplicativo seguindo as ruas.
-
-![Rota traçada](assets/screenshots/rota.png)
-
-### Menu lateral
-
-Tela apresentando o menu lateral do aplicativo.
-
-![Menu lateral](assets/screenshots/menu.png)
-
----
-
-## Como executar o projeto
-
-### 1. Clonar o repositório
+Clone o repositório:
 
 ```bash
-git clone URL_DO_SEU_REPOSITORIO
+git clone SEU_LINK_DO_GITHUB
 ```
 
-### 2. Entrar na pasta do projeto
+Acesse o projeto:
 
 ```bash
-cd flutter_maps_nativo
+cd flutter_desafio_1
 ```
 
-### 3. Instalar as dependências
+Instale as dependências:
 
 ```bash
 flutter pub get
 ```
 
-### 4. Executar o aplicativo
-
-Para executar no navegador:
+Inicie o aplicativo:
 
 ```bash
-flutter run -d chrome
-```
-
-Também é possível executar o projeto utilizando um emulador ou dispositivo conectado.
-
----
-
-## Dependências
-
-As principais dependências utilizadas no projeto são:
-
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-
-  flutter_map: ^8.2.2
-  latlong2: ^0.9.1
-  http: ^1.0.0
+flutter run
 ```
 
 ---
 
-## Como funciona a rota
+##  APK
 
-O aplicativo utiliza o **OSRM (Open Source Routing Machine)** para calcular o trajeto entre a origem e o destino.
-
-Quando o usuário seleciona um destino:
-
-1. O aplicativo identifica a latitude e a longitude do destino;
-2. A origem e o destino são enviados para o OSRM;
-3. O OSRM calcula o trajeto pelas ruas;
-4. O aplicativo recebe os pontos que formam a rota;
-5. Os pontos recebidos são utilizados para desenhar a linha no mapa.
-
-Dessa forma, a rota acompanha o caminho das ruas disponíveis no mapa.
-
----
-
-## Estrutura do projeto
-
-```text
-flutter_maps_nativo/
-│
-├── android/
-├── ios/
-│
-├── lib/
-│   ├── main.dart
-│   │
-│   ├── screens/
-│   │   ├── splash_screen.dart
-│   │   └── mapa_screen.dart
-│   │
-│   └── widgets/
-│       ├── menu_lateral.dart
-│       └── coordenadas_card.dart
-│
-├── assets/
-│   ├── app-release.apk
-│   │
-│   ├── icons/
-│   │   └── app_icon.png
-│   │
-│   └── screenshots/
-│       ├── inicio.png
-│       ├── rota.png
-│       └── menu.png
-│
-├── test/
-├── pubspec.yaml
-├── pubspec.lock
-└── README.md
-```
-
----
-
-## APK
-
-O APK do aplicativo está disponível na pasta:
-
-```text
-assets/app-release.apk
-```
-
-Para gerar o APK novamente, utilize o comando:
+Uma versão **Release** do aplicativo foi gerada utilizando:
 
 ```bash
 flutter build apk --release
 ```
 
-Após a geração, o arquivo estará em:
+O APK está disponível diretamente na raiz do projeto.
 
-```text
-build/app/outputs/flutter-apk/app-release.apk
-```
+### ⬇ Download
 
-O arquivo pode ser copiado para:
-
-```text
-assets/app-release.apk
-```
+**[Baixar o APK](./app-release.apk)**
 
 ---
 
-## Ícone do aplicativo
+##  Proposta acadêmica
 
-O projeto possui um ícone personalizado localizado em:
+**Disciplina:** Programação para Dispositivos Móveis
+**Aula:** 04 — Consumo de APIs Externas
+**Desafio:** 01 — Aplicativo de cadastro de pessoas
 
-```text
-assets/icons/app_icon.png
-```
+O projeto foi desenvolvido como atividade prática envolvendo:
 
-O ícone é utilizado na identificação do aplicativo e na tela inicial.
-
----
-
-## Imagens do projeto
-
-As capturas de tela utilizadas neste README estão armazenadas em:
-
-```text
-assets/screenshots/
-```
-
-Arquivos:
-
-```text
-inicio.png
-rota.png
-menu.png
-```
+* Consumo de Web Service REST
+* Requisições HTTP
+* Método GET
+* Manipulação de JSON
+* Integração com API externa
+* Persistência de dados em dispositivo móvel
+* Programação orientada a objetos
+* Desenvolvimento de interfaces em Flutter
 
 ---
 
-## Projeto desenvolvido para
+##  Desenvolvimento
 
-**Curso:** Desenvolvimento de Sistemas  
-**Atividade:** Aula 05 - Mapas  
-**Tecnologia:** Flutter
+**Julia Novo**
 
----
-
-## Autora
-
-**Clara Andrzejewsky Antonacci**
-
-Projeto desenvolvido como atividade acadêmica do curso de Desenvolvimento de Sistemas.
+Projeto acadêmico desenvolvido no **SENAI**.
