@@ -92,6 +92,8 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final claro = Theme.of(context).brightness == Brightness.light;
+    final corDestaque = claro ? destaqueEscuro : destaque;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Novo cadastro',
@@ -146,9 +148,9 @@ class _CadastroScreenState extends State<CadastroScreen> {
               decoration: _decoracao('Complemento'),
             ),
             const SizedBox(height: 22),
-            const Text('Endereço',
+            Text('Endereço',
                 style: TextStyle(
-                  color: destaque, fontSize: 18, fontWeight: FontWeight.w700,
+                  color: corDestaque, fontSize: 18, fontWeight: FontWeight.w700,
                 )),
             const SizedBox(height: 14),
             TextFormField(
@@ -183,8 +185,8 @@ class _CadastroScreenState extends State<CadastroScreen> {
                 label: const Text('SALVAR CADASTRO',
                     style: TextStyle(fontWeight: FontWeight.w700)),
                 style: FilledButton.styleFrom(
-                  backgroundColor: rosa,
-                  foregroundColor: Colors.white,
+                  backgroundColor: corDestaque,
+                  foregroundColor: claro ? Colors.white : const Color(0xFF171512),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),

@@ -6,7 +6,14 @@ import 'storage_service.dart';
 import 'theme.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final bool modoClaro;
+  final ValueChanged<bool> mudarTema;
+
+  const HomeScreen({
+    super.key,
+    required this.modoClaro,
+    required this.mudarTema,
+  });
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -39,9 +46,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _abrirSplash() async {
     Navigator.pop(context);
+
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const SplashScreen(fromMenu: true)),
+      MaterialPageRoute(
+        builder: (_) => SplashScreen(
+          fromMenu: true,
+          modoClaro: widget.modoClaro,
+          mudarTema: widget.mudarTema,
+        ),
+      ),
     );
   }
 
@@ -49,10 +63,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final claro = Theme.of(context).brightness == Brightness.light;
+    final corSecundaria = claro ? secundarioDia : textoSecundario;
+    final corDestaque = claro ? destaqueEscuro : destaque;
+    final corCartao = claro ? superficieDia : superficie;
+    final corBotao = claro ? Colors.white : const Color(0xFF171512);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pessoas cadastradas',
-            style: TextStyle(fontWeight: FontWeight.w700)),
+        title: const Text(
+          'Pessoas cadastradas',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
       ),
       drawer: Drawer(
         child: SafeArea(
@@ -61,30 +82,34 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.fromLTRB(24, 30, 24, 24),
-                color: rosa,
+                color: corDestaque,
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(Icons.people_alt_rounded, color: superficie, size: 42),
                     SizedBox(height: 12),
-                    Text('Cadastro',
-                        style: TextStyle(
-                          color: superficie,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                        )),
+                    Text(
+                      'Cadastro',
+                      style: TextStyle(
+                        color: superficie,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ],
                 ),
               ),
               ListTile(
-                leading: const Icon(Icons.home_outlined),
                 title: const Text('Home'),
                 onTap: () => Navigator.pop(context),
               ),
-              ListTile(
-                leading: const Icon(Icons.auto_awesome_outlined),
-                title: const Text('Splash'),
-                onTap: _abrirSplash,
+              ListTile(title: const Text('Splash'), onTap: _abrirSplash),
+              SwitchListTile(
+                secondary: Icon(claro ? Icons.light_mode : Icons.dark_mode),
+                title: const Text('Modo claro'),
+                value: claro,
+                activeThumbColor: destaqueEscuro,
+                onChanged: widget.mudarTema,
               ),
               const Spacer(),
               const Divider(height: 1),
@@ -104,14 +129,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.people_outline_rounded, size: 76, color: rosa),
+                    Icon(
+                      Icons.people_outline_rounded,
+                      size: 76,
+                      color: corDestaque,
+                    ),
                     const SizedBox(height: 16),
-                    const Text('Nenhuma pessoa cadastrada.',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                    const Text(
+                      'Nenhuma pessoa cadastrada.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     const SizedBox(height: 8),
-                    const Text('Toque no + para adicionar uma pessoa.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: textoSecundario)),
+                    const Text(
+                      'Toque no + para adicionar uma pessoa.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: textoSecundario),
+                    ),
                   ],
                 ),
               ),
@@ -124,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Card(
                   margin: const EdgeInsets.only(bottom: 14),
                   elevation: 0,
-                  color: superficie,
+                  color: corCartao,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
                   ),
@@ -133,25 +169,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(pessoa['nome'] as String,
-                            style: const TextStyle(
-                              color: rosaEscuro,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            )),
+                        Text(
+                          pessoa['nome'] as String,
+                          style: TextStyle(
+                            color: corDestaque,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         const SizedBox(height: 10),
                         Text('${pessoa['rua']}, ${pessoa['numero']}'),
-                        Text('${pessoa['bairro']} • ${pessoa['cidade']} - ${pessoa['estado']}',
-                            style: const TextStyle(color: textoSecundario)),
+                        Text(
+                          '${pessoa['bairro']} • ${pessoa['cidade']} - ${pessoa['estado']}',
+                          style: TextStyle(color: corSecundaria),
+                        ),
                         if ((pessoa['complemento'] as String).isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.only(top: 4),
-                            child: Text('Complemento: ${pessoa['complemento']}',
-                                style: const TextStyle(color: textoSecundario)),
+                            child: Text(
+                              'Complemento: ${pessoa['complemento']}',
+                              style: TextStyle(color: corSecundaria),
+                            ),
                           ),
                         const SizedBox(height: 8),
-                        Text('CEP: ${pessoa['cep']}',
-                            style: const TextStyle(color: textoSecundario, fontSize: 12)),
+                        Text(
+                          'CEP: ${pessoa['cep']}',
+                          style: TextStyle(color: corSecundaria, fontSize: 12),
+                        ),
                       ],
                     ),
                   ),
@@ -160,8 +204,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: _novaPessoa,
-        backgroundColor: rosa,
-        foregroundColor: Colors.white,
+        backgroundColor: corDestaque,
+        foregroundColor: corBotao,
         child: const Icon(Icons.add),
       ),
     );

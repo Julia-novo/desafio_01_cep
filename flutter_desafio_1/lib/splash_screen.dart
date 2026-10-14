@@ -4,7 +4,10 @@ import 'theme.dart';
 
 class SplashScreen extends StatefulWidget {
   final bool fromMenu;
-  const SplashScreen({super.key, this.fromMenu = false});
+  final bool modoClaro;
+  final ValueChanged<bool> mudarTema;
+  const SplashScreen({super.key, this.fromMenu = false,
+    required this.modoClaro, required this.mudarTema});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -34,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          MaterialPageRoute(builder: (_) => HomeScreen(modoClaro: widget.modoClaro, mudarTema: widget.mudarTema)),
         );
       }
     });
@@ -48,8 +51,9 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final claro = Theme.of(context).brightness == Brightness.light;
     return Scaffold(
-      backgroundColor: creme,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: AnimatedBuilder(
           animation: _controller,
@@ -64,17 +68,17 @@ class _SplashScreenState extends State<SplashScreen>
                 width: 110,
                 height: 110,
                 decoration: BoxDecoration(
-                  color: rosa,
+                  color: claro ? destaqueEscuro : destaque,
                   borderRadius: BorderRadius.circular(28),
                 ),
                 child: const Icon(Icons.people_alt_rounded,
                     color: Colors.white, size: 58),
               ),
               const SizedBox(height: 22),
-              const Text(
+              Text(
                 'Cadastro de Pessoas',
                 style: TextStyle(
-                  color: texto,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 25,
                   fontWeight: FontWeight.w700,
                 ),

@@ -9,61 +9,81 @@ const destaqueEscuro = Color(0xFFB08F63);
 const texto = Color(0xFFF3F0EA);
 const textoSecundario = Color(0xFFB9B5AE);
 const borda = Color(0xFF39393F);
-
-// Mantidos para preservar a estrutura da V1.
 const rosa = destaque;
 const rosaEscuro = destaque;
 const creme = fundo;
 
-final appTheme = ThemeData(
-  useMaterial3: true,
-  scaffoldBackgroundColor: fundo,
-  colorScheme: const ColorScheme.dark(
-    surface: fundo,
-    primary: destaque,
-    onPrimary: Color(0xFF171512),
-    secondary: destaqueEscuro,
-    onSurface: texto,
-  ),
-  textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme).apply(
-    bodyColor: texto,
-    displayColor: texto,
-  ),
-  appBarTheme: const AppBarTheme(
-    backgroundColor: fundo,
-    foregroundColor: texto,
-    elevation: 0,
-    centerTitle: false,
-  ),
-  drawerTheme: const DrawerThemeData(
-    backgroundColor: superficie,
-    surfaceTintColor: Colors.transparent,
-  ),
-  inputDecorationTheme: const InputDecorationTheme(
-    filled: true,
-    fillColor: superficie,
-    labelStyle: TextStyle(color: textoSecundario),
-    prefixIconColor: textoSecundario,
-    suffixIconColor: destaque,
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(14)),
-      borderSide: BorderSide(color: borda),
+const fundoDia = Color(0xFFFFFFFF);
+const superficieDia = Color(0xFFF6F4F1);
+const textoDia = Color(0xFF25221E);
+const secundarioDia = Color(0xFF6B665F);
+const bordaDia = Color(0xFFE3DED7);
+
+ThemeData _criarTema(bool claro) {
+  final bg = claro ? fundoDia : fundo;
+  final surface = claro ? superficieDia : superficie;
+  final fg = claro ? textoDia : texto;
+  final muted = claro ? secundarioDia : textoSecundario;
+  final outline = claro ? bordaDia : borda;
+  final accent = claro ? destaqueEscuro : destaque;
+  final contrast = claro ? Colors.white : const Color(0xFF171512);
+  final brightness = claro ? Brightness.light : Brightness.dark;
+
+  return ThemeData(
+    useMaterial3: true,
+    brightness: brightness,
+    scaffoldBackgroundColor: bg,
+    colorScheme: ColorScheme.fromSeed(seedColor: destaque, brightness: brightness).copyWith(
+      surface: bg,
+      primary: accent,
+      onPrimary: contrast,
+      secondary: destaqueEscuro,
+      onSurface: fg,
+      outline: outline,
     ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(14)),
-      borderSide: BorderSide(color: borda),
+    textTheme: GoogleFonts.poppinsTextTheme(
+      claro ? ThemeData.light().textTheme : ThemeData.dark().textTheme,
+    ).apply(bodyColor: fg, displayColor: fg),
+    appBarTheme: AppBarTheme(
+      backgroundColor: bg,
+      foregroundColor: fg,
+      elevation: 0,
+      centerTitle: false,
     ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(14)),
-      borderSide: BorderSide(color: destaque, width: 1.5),
+    drawerTheme: DrawerThemeData(
+      backgroundColor: surface,
+      surfaceTintColor: Colors.transparent,
     ),
-  ),
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: destaque,
-    foregroundColor: Color(0xFF171512),
-  ),
-  snackBarTheme: const SnackBarThemeData(
-    backgroundColor: superficieClara,
-    contentTextStyle: TextStyle(color: texto),
-  ),
-);
+    cardTheme: CardThemeData(color: surface, elevation: 0),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: surface,
+      labelStyle: TextStyle(color: muted),
+      prefixIconColor: muted,
+      suffixIconColor: accent,
+      border: OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(14)),
+        borderSide: BorderSide(color: outline),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(14)),
+        borderSide: BorderSide(color: outline),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(14)),
+        borderSide: BorderSide(color: accent, width: 1.5),
+      ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: accent,
+      foregroundColor: contrast,
+    ),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: claro ? superficieDia : superficieClara,
+      contentTextStyle: TextStyle(color: fg),
+    ),
+  );
+}
+
+final appTheme = _criarTema(false);
+final appThemeLight = _criarTema(true);
